@@ -10,13 +10,10 @@
     } else {
       root.removeAttribute("data-theme");
     }
-    var label = theme === "dark" ? "Light" : "Dark";
-    ["theme-toggle-label"].forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el) el.textContent = label;
+    var label = theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
+    document.querySelectorAll(".theme-toggle").forEach(function (btn) {
+      btn.setAttribute("aria-label", label);
     });
-    var mobileBtn = document.getElementById("theme-toggle-mobile");
-    if (mobileBtn) mobileBtn.textContent = label;
   }
 
   function currentTheme() {
