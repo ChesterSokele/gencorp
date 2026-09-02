@@ -73,6 +73,31 @@
     if (e.key === "Escape" && modal && modal.classList.contains("open")) closeModal();
   });
 
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var revealEls = document.querySelectorAll(".reveal");
+  if (revealEls.length) {
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      revealEls.forEach(function (el) {
+        el.classList.add("is-visible");
+      });
+    } else {
+      var revealObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+      );
+      revealEls.forEach(function (el) {
+        revealObserver.observe(el);
+      });
+    }
+  }
+
   var form = document.getElementById("contact-form");
   var statusEl = document.getElementById("form-status");
 

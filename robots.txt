@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gencorp.netlify.app/sitemap.xml
+Sitemap: https://chestersokele.github.io/gencorp/sitemap.xml
