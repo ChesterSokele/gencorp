@@ -100,48 +100,27 @@
 
   var form = document.getElementById("contact-form");
   var statusEl = document.getElementById("form-status");
-
-  function encode(data) {
-    return Object.keys(data)
-      .map(function (key) {
-        return encodeURIComponent(key) + "=" + encodeURIComponent(data[key]);
-      })
-      .join("&");
-  }
+  var CONTACT_EMAIL = "info@gencorp.cc";
 
   if (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var submitBtn = form.querySelector("button[type=submit]");
-      var formData = new FormData(form);
-      var payload = {};
-      formData.forEach(function (value, key) {
-        payload[key] = value;
-      });
+      var name = form.elements.name.value.trim();
+      var email = form.elements.email.value.trim();
+      var message = form.elements.message.value.trim();
 
-      submitBtn.disabled = true;
-      statusEl.textContent = "Sending...";
-      statusEl.className = "form-status";
+      var subject = "Website enquiry from " + name;
+      var body = message + "\n\n— " + name + " (" + email + ")";
+      var mailtoUrl =
+        "mailto:" + CONTACT_EMAIL +
+        "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(body);
 
-      fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encode(payload),
-      })
-        .then(function (response) {
-          if (!response.ok) throw new Error("Network response was not ok");
-          statusEl.textContent = "Thanks! Your message has been sent.";
-          statusEl.className = "form-status success";
-          form.reset();
-          setTimeout(closeModal, 1800);
-        })
-        .catch(function () {
-          statusEl.textContent = "Something went wrong. Please email info@gencorp.cc directly.";
-          statusEl.className = "form-status error";
-        })
-        .finally(function () {
-          submitBtn.disabled = false;
-        });
+      statusEl.textContent = "Opening your email app to send this to " + CONTACT_EMAIL + "...";
+      statusEl.className = "form-status success";
+      window.location.href = mailtoUrl;
+      form.reset();
+      setTimeout(closeModal, 2200);
     });
   }
 })();

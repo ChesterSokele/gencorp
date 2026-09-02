@@ -510,7 +510,6 @@ textarea.form-field { height: 6rem; resize: vertical; }
 }
 .form-status.success { color: #16a34a; }
 .form-status.error { color: #dc2626; }
-.honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 .visually-hidden {
   position: absolute;
